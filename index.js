@@ -1,4 +1,5 @@
 const express = require('express');
+const { MongoClient, ServerApiVersion,ObjectId } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config()
 const app=express()
@@ -13,7 +14,7 @@ app.use(express.json())
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.tgzt8q2.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -33,12 +34,28 @@ async function run() {
      const jobCollection=client.db("jobdb").collection('jobs')
 
 
+
+
      app.post('/jobs',async(req,res)=>{
           const job=req.body;
         //   console.log(job);
         const result=await jobCollection.insertOne(job)
         res.send(result)
 
+
+     })
+
+     app.get("/jobs",async(req,res)=>{
+          const result=await jobCollection.find().toArray()
+          res.send(result) 
+     })
+
+     app.get("/jobs/:id",async(req,res)=>{
+        const id=req.params.id
+        // console.log(id);
+         const query={_id:new ObjectId(id)}
+         const result=await jobCollection.findOne(query)
+         res.send(result)
 
      })
  
