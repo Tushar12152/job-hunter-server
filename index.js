@@ -32,10 +32,35 @@ async function run() {
     await client.connect();
 
      const jobCollection=client.db("jobdb").collection('jobs')
+     const userCollection=client.db("usersdb").collection('users')
+
+
+
+//usersdb
+
+app.post('/users',async(req,res)=>{
+    const user=req.body;
+    // console.log(user);
+  const result=await userCollection.insertOne(user)
+  res.send(result)
+
+
+})
+
+
+app.get('/users',async(req,res)=>{
+    const result=await userCollection.find().toArray()
+          res.send(result) 
+  })
 
 
 
 
+
+
+
+
+//jobsDB
      app.post('/jobs',async(req,res)=>{
           const job=req.body;
         //   console.log(job);
