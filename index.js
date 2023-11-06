@@ -50,6 +50,20 @@ app.post("/applications",async(req,res)=>{
 
 
 
+app.get('/applications',async(req,res)=>{
+  const result=await ApplicationCollection.find().toArray()
+        res.send(result) 
+})
+
+// app.delete("/applications/:id",async(req,res)=>{
+//        const id=req.params.id
+//        const query ={_id:new ObjectId(id)}
+
+//        const result=await 
+// })
+
+
+
 
 //usersdb
 
@@ -93,6 +107,16 @@ app.get('/users',async(req,res)=>{
          const result=await jobCollection.findOne(query)
          res.send(result)
 
+     })
+
+     
+
+     app.delete("/jobs/:id",async(req,res)=>{
+            const id=req.params.id;
+            // console.log(id);
+            const query={_id:new ObjectId(id)}
+            const result=await jobCollection.deleteOne(query)
+            res.send(result)
      })
  
 
