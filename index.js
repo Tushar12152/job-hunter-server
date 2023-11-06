@@ -33,6 +33,21 @@ async function run() {
 
      const jobCollection=client.db("jobdb").collection('jobs')
      const userCollection=client.db("usersdb").collection('users')
+     const ApplicationCollection=client.db("applicationdb").collection('applications')
+
+
+
+
+     //applicationDB
+
+app.post("/applications",async(req,res)=>{
+     const application= req.body;
+     console.log(application);
+     const result=await ApplicationCollection.insertOne(application)
+     res.send(result)
+
+})
+
 
 
 
@@ -45,6 +60,7 @@ app.post('/users',async(req,res)=>{
   res.send(result)
 
 
+
 })
 
 
@@ -52,11 +68,6 @@ app.get('/users',async(req,res)=>{
     const result=await userCollection.find().toArray()
           res.send(result) 
   })
-
-
-
-
-
 
 
 
@@ -111,3 +122,4 @@ app.get("/",(req,res)=>{
 app.listen(port,()=>{
     console.log(`this server is going on port${port}`);
 })
+
