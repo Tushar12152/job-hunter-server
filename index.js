@@ -35,7 +35,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
      const jobCollection=client.db("jobdb").collection('jobs')
      const userCollection=client.db("usersdb").collection('users')
@@ -82,6 +82,16 @@ app.post("/applications",async(req,res)=>{
      const result=await ApplicationCollection.insertOne(application)
      res.send(result)
 
+})
+
+
+
+app.delete("/applications/:id",async(req,res)=>{
+  const id=req.params.id;
+  // console.log("deleted application id",id);
+  const query={_id:new ObjectId(id)}
+  const result=await ApplicationCollection.deleteOne(query)
+  res.send(result)
 })
 
 
